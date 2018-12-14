@@ -15,6 +15,10 @@ import { environment } from '../environments/environment';
 import { LogsListViewComponent } from './components/logs-list-view/logs-list-view.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LogAddFormComponent } from './components/log-add-form/log-add-form.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AppNavComponent } from './components/app-nav/app-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 
 const appRoutes: Routes = [
   { path: 'logs', component: LogsListViewComponent },
@@ -28,7 +32,8 @@ const appRoutes: Routes = [
     AppComponent,
     LogsListViewComponent,
     PageNotFoundComponent,
-    LogAddFormComponent
+    LogAddFormComponent,
+    AppNavComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -40,7 +45,7 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase, 'geo-loc-me'),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule // imports firebase/storage only needed for storage features
+    AngularFireStorageModule, NoopAnimationsModule, LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule // imports firebase/storage only needed for storage features
   ],
   providers: [],
   bootstrap: [AppComponent]
