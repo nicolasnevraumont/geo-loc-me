@@ -1,6 +1,8 @@
 # GeoLocMe
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
+This is a PWA for logging the current location and eventually add a comment. Could be used for keeping track/proof of presence in a location, or have a comment on visited places...
+
+Technically, it's a POC for PWA with angular, firebase and other components. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
 
 ## Development server
 
