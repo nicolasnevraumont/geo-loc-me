@@ -19,6 +19,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppNavComponent } from './components/app-nav/app-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const appRoutes: Routes = [
   { path: 'logs', component: LogsListViewComponent },
@@ -45,7 +46,7 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase, 'geo-loc-me'),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule, NoopAnimationsModule, LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule // imports firebase/storage only needed for storage features
+    AngularFireStorageModule, NoopAnimationsModule, LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }) // imports firebase/storage only needed for storage features
   ],
   providers: [],
   bootstrap: [AppComponent]
