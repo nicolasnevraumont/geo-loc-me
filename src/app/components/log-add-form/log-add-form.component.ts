@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
+import { AngularFireAuth } from '@angular/fire/auth';
 
-import { Location, GeoPoint, Timestamp } from "../../shared/models/location"
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { Location } from "../../shared/models/location"
 
 @Component({
   selector: 'app-log-add-form',
@@ -13,21 +17,22 @@ export class LogAddFormComponent {
   private itemsCollection: AngularFirestoreCollection<Location>;
   comment = new FormControl('');
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, public afAuth: AngularFireAuth) {
     this.itemsCollection = afs.collection<Location>('locations');
   }
 
   log(comment: string) {
     const location: any = {};
+    location.datetime = Date.now();
     location.comment = comment;
-    location.datetime = {};
-    location.datetime.seconds = Math.floor(Date.now() / 1000);
-    navigator.geolocation.getCurrentPosition((position) => {
-      location.location = {};
-      location.location.latitude = position.coords.latitude;
-      location.location.longitude = position.coords.longitude;
+    this.afAuth.user.subscribe((currentUser) => {
+      location.user = currentUser.displayName;
+      navigator.geolocation.getCurrentPosition((position) => {
+        location.coords = {};
+        location.coords.longitude = position.coords.longitude;
+        location.coords.latitude = position.coords.latitude;
+        this.itemsCollection.add(location);
+      });
     });
-    console.log(location);
-    this.itemsCollection.add(location);
   }
 }

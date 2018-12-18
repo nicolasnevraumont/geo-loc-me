@@ -1,6 +1,6 @@
 <div>
-<mat-form-field>
-  <input matInput placeholder="Place an optional comment here..." [formControl]="comment">
-</mat-form-field>
-<button mat-button (click)="log(comment.value)">Log my position now!</button>
+  <mat-form-field>
+    <input matInput placeholder="Place an optional comment here..." [formControl]="comment">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="log(comment.value)">Log my position now!</button>
 </div>
