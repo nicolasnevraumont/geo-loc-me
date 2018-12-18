@@ -1,3 +1,6 @@
-<p>
-  log-add-form works!
-</p>
+<div>
+<mat-form-field>
+  <input matInput placeholder="Place an optional comment here..." [formControl]="comment">
+</mat-form-field>
+<button mat-button (click)="log(comment.value)">Log my position now!</button>
+</div>

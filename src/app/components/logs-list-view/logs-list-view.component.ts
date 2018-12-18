@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from "@angular/fire/firestore";
+import { Component } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
+
+import { Location } from "../../shared/models/location"
 
 @Component({
   selector: 'app-logs-list-view',
   templateUrl: './logs-list-view.component.html',
   styleUrls: ['./logs-list-view.component.scss']
 })
-export class LogsListViewComponent implements OnInit {
-
-  items: Observable<any[]>;
-  constructor(db: AngularFirestore) {
-    this.items = db.collection('locations').valueChanges();
+export class LogsListViewComponent {
+  private itemsCollection: AngularFirestoreCollection<Location>;
+  items: Observable<Location[]>;
+  constructor(private afs: AngularFirestore) {
+    this.itemsCollection = afs.collection<Location>('locations');
+    this.items = this.itemsCollection.valueChanges();
   }
 
-  ngOnInit() {
+  add(location: Location) {
+    this.itemsCollection.add(location);
   }
 }
