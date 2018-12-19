@@ -3,10 +3,10 @@ import { FormControl } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { Location } from "../../shared/models/location"
+import { Address } from "../../shared/models/address";
+
+import { OpenStreetMapService } from "../../shared/services/open-street-map.service";
 
 @Component({
   selector: 'app-log-add-form',
@@ -17,7 +17,9 @@ export class LogAddFormComponent {
   private itemsCollection: AngularFirestoreCollection<Location>;
   comment = new FormControl('');
 
-  constructor(private afs: AngularFirestore, public afAuth: AngularFireAuth) {
+  constructor(private afs: AngularFirestore,
+              public afAuth: AngularFireAuth,
+              private openStreetMapService: OpenStreetMapService) {
     this.itemsCollection = afs.collection<Location>('locations');
   }
 
@@ -31,7 +33,13 @@ export class LogAddFormComponent {
         location.coords = {};
         location.coords.longitude = position.coords.longitude;
         location.coords.latitude = position.coords.latitude;
-        this.itemsCollection.add(location);
+        this.openStreetMapService.getAddressFromGeocoding(location.coords.latitude, location.coords.longitude)
+          .subscribe(
+            (address: Address) => {
+              location.address = { ...address };
+              this.itemsCollection.add(location);
+            }
+          );
       });
     });
   }
