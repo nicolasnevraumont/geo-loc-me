@@ -1,5 +1,5 @@
 <ul>
   <li class="text" *ngFor="let item of items | async">
-    {{item.comment}}
+    {{item.comment}} - {{item.address.village}} {{item.address.country}}
   </li>
 </ul>
