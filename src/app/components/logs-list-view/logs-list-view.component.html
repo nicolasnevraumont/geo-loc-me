@@ -1,5 +1,9 @@
-<ul>
-  <li class="text" *ngFor="let item of items | async">
-    {{item.comment}} - {{item.address.village}} {{item.address.country}}
-  </li>
-</ul>
+<mat-nav-list>
+  <mat-list-item *ngFor="let item of items | async">
+    <span>{{item.comment}} - {{item.address.village}} {{item.address.town}} {{item.address.country}}</span>
+    <button mat-icon-button (click)="showOnMap(item.coords)">
+      <mat-icon>map</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>
+<div id="map" class="map"></div>
