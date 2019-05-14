@@ -73,6 +73,6 @@ export class LogsListViewComponent implements OnInit {
   showOnMap(coords: Coords) {
     var view = this.map.getView();
     view.setCenter(ol.proj.fromLonLat([coords.longitude, coords.latitude]));
-    view.setZoom(12);
+    view.setZoom(16);
   }
 }
