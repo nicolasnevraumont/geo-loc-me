@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 
-import { Coords, Location } from "../../shared/models/location"
+import * as L from 'leaflet';
 
-declare var ol: any;
+import { Coords, Location } from "../../shared/models/location"
 
 @Component({
   selector: 'app-logs-list-view',
@@ -24,55 +24,26 @@ export class LogsListViewComponent implements OnInit {
     this.itemsCollection.add(location);
   }
 
-  latitude: number = 18.5204;
-  longitude: number = 73.8567;
+  private readonly myIcon: any = L.icon({
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png'
+  });
 
-  map: any;
+  private myMap: any;
 
   ngOnInit() {
-    var mousePositionControl = new ol.control.MousePosition({
-      coordinateFormat: ol.coordinate.createStringXY(4),
-      projection: 'EPSG:4326',
-      // comment the following two lines to have the mouse position
-      // be placed within the map.
-      className: 'custom-mouse-position',
-      target: document.getElementById('mouse-position'),
-      undefinedHTML: '&nbsp;'
-    });
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.myMap = L.map('map').setView([position.coords.latitude, position.coords.longitude], 16);
 
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Frugal Map'
+      }).addTo(this.myMap);
 
-    this.map = new ol.Map({
-      target: 'map',
-      controls: ol.control.defaults({
-        attributionOptions: {
-          collapsible: false
-        }
-      }).extend([mousePositionControl]),
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([73.8567, 18.5204]),
-        zoom: 8
-      })
-    });
-
-    this.map.on('click', function (args) {
-      console.log(args.coordinate);
-      var lonlat = ol.proj.transform(args.coordinate, 'EPSG:3857', 'EPSG:4326');
-      console.log(lonlat);
-
-      var lon = lonlat[0];
-      var lat = lonlat[1];
-      alert(`lat: ${lat} long: ${lon}`);
+      L.marker([position.coords.latitude, position.coords.longitude], {icon: this.myIcon}).bindPopup('I\'m here!').addTo(this.myMap).openPopup();
     });
   }
 
-  showOnMap(coords: Coords) {
-    var view = this.map.getView();
-    view.setCenter(ol.proj.fromLonLat([coords.longitude, coords.latitude]));
-    view.setZoom(16);
+  showOnMap(comment: string, coords: Coords) {
+    this.myMap = this.myMap.setView([coords.latitude, coords.longitude], 16);
+    L.marker([coords.latitude, coords.longitude], {icon: this.myIcon}).bindPopup(comment).addTo(this.myMap).openPopup();
   }
 }
