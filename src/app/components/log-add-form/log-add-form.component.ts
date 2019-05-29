@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from "@angular/router";
+
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import { AngularFireAuth } from '@angular/fire/auth';
 
@@ -19,7 +21,8 @@ export class LogAddFormComponent {
 
   constructor(private afs: AngularFirestore,
               public afAuth: AngularFireAuth,
-              private openStreetMapService: OpenStreetMapService) {
+              private openStreetMapService: OpenStreetMapService,
+              private router: Router) {
     this.itemsCollection = afs.collection<Location>('locations');
   }
 
@@ -38,6 +41,15 @@ export class LogAddFormComponent {
             (address: Address) => {
               location.address = { ...address };
               this.itemsCollection.add(location);
+              this.router.navigate(['/logs']);
+              /*
+              this.itemsCollection.add(location).then(res => {
+                console.log(res);
+                this.router.navigate(['/logs']);
+              }).catch(err => {
+                console.log('something went wrong '+ err)
+              });
+              */
             }
           );
       });

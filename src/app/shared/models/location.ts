@@ -5,6 +5,7 @@ export class Coords {
 }
 
 export class Location {
+  id?: string;
   datetime: Date;
   coords: Coords;
   comment: string;
