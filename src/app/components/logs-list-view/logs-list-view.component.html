@@ -1,7 +1,8 @@
 <div id="map" class="map"></div>
 <mat-nav-list>
   <mat-list-item *ngFor="let item of items | async" (click)="showOnMap(item)" (mouseenter)="hover(item)" (mouseleave)="hover(null)">
-    <span>{{item.comment}} - {{item.address.village}} {{item.address.town}} {{item.address.country}}</span>
+    <span>{{item.address.village}} {{item.address.town}} ({{item.address.country}})</span>
+    <span *ngIf="item.comment" class="comment">"{{item.comment}}"</span>
     <mat-icon [style.visibility]="isSelected(item) ? 'visible' : 'hidden'">location_on</mat-icon>
     <mat-icon [style.visibility]="isHovered(item) ? 'visible' : 'hidden'" (click)="delete(item)">delete</mat-icon>
   </mat-list-item>

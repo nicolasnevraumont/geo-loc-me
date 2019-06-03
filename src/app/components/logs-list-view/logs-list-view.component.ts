@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from "@angular/fire/firestore";
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 import * as L from 'leaflet';
 
-import { Coords, Location } from "../../shared/models/location"
+import { Location } from "../../shared/models/location"
 
 @Component({
   selector: 'app-logs-list-view',
@@ -37,12 +37,6 @@ export class LogsListViewComponent implements OnInit {
     }));
   }
 
-  /*
-  add(location: Location) {
-    this.itemsCollection.add(location);
-  }
-  */
-
   ngOnInit() {
     // initialise map
     this.myMap = L.map('map');
@@ -67,7 +61,10 @@ export class LogsListViewComponent implements OnInit {
 
     // move to new location and add related marker
     this.myMap.setView([item.coords.latitude, item.coords.longitude], 12);
-    this.marker = L.marker([item.coords.latitude, item.coords.longitude], { icon: this.myIcon }).bindPopup(item.comment).addTo(this.myMap).openPopup();
+    this.marker = L.marker([item.coords.latitude, item.coords.longitude], { icon: this.myIcon }).bindPopup(item.comment).addTo(this.myMap);
+    if (item.comment) {
+      this.marker.openPopup();
+    }
   }
 
   isSelected(item: Location): boolean {

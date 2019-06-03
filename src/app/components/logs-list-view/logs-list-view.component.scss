@@ -1,7 +1,21 @@
+@import '~@angular/material/theming';
+
+// Include non-theme styles for core.
+@include mat-core();
+
+// Define your application's custom theme.
+$primary: mat-palette($mat-indigo);
+
 :host {
   .map {
     height: 100%;
     width: 50vw;
     float: right;
+  }
+
+  .comment {
+    margin-left: 5px;
+    font-style: italic;
+    color: mat-color($primary);
   }
 }
