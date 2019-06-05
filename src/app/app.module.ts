@@ -27,7 +27,7 @@ import { AuthenticationComponent } from './components/authentication/authenticat
 const appRoutes: Routes = [
   { path: 'logs', component: LogsListViewComponent },
   { path: 'logs/add', component: LogAddFormComponent },
-  { path: '',   redirectTo: '/logs', pathMatch: 'full' },
+  { path: '',   redirectTo: '/logs/add', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
