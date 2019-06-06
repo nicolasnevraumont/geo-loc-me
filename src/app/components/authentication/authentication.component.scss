@@ -1,7 +1,12 @@
 button {
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 mat-icon {
   margin: 4px 6px 0px 0px;
+}
+
+user-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

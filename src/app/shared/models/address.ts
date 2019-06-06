@@ -8,8 +8,15 @@ export class Address {
   country?: string;
   country_code?: string;
 
+  constructor(obj: any) {
+    if (obj) {
+      for (const property in obj) {
+        this[property] = obj[property];
+      }
+    }
+  }
+
   public get location_name(): string {
-    console.log(this.village);
     return (this.village !== null) ? this.village : this.town;
   }
 }

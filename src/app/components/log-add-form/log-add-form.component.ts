@@ -42,14 +42,6 @@ export class LogAddFormComponent {
               location.address = { ...address };
               this.itemsCollection.add(location);
               this.router.navigate(['/logs']);
-              /*
-              this.itemsCollection.add(location).then(res => {
-                console.log(res);
-                this.router.navigate(['/logs']);
-              }).catch(err => {
-                console.log('something went wrong '+ err)
-              });
-              */
             }
           );
       });

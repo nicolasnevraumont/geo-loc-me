@@ -20,7 +20,9 @@ import { LogAddFormComponent } from './components/log-add-form/log-add-form.comp
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppNavComponent } from './components/app-nav/app-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatInputModule, MatIconRegistry } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
+  MatListModule, MatInputModule, MatIconRegistry, MatExpansionModule } from '@angular/material';
+
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 
@@ -51,7 +53,8 @@ const appRoutes: Routes = [
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
-    NoopAnimationsModule, LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatInputModule,
+    NoopAnimationsModule, LayoutModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
+    MatListModule, MatInputModule, MatExpansionModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule, ReactiveFormsModule,
     HttpClientModule

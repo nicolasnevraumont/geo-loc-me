@@ -1,9 +1,19 @@
-<div id="map" class="map"></div>
-<mat-nav-list>
-  <mat-list-item *ngFor="let item of items | async" (click)="showOnMap(item)" (mouseenter)="hover(item)" (mouseleave)="hover(null)">
-    <span>{{item.address.village}} {{item.address.town}} ({{item.address.country}})</span>
-    <span *ngIf="item.comment" class="comment">"{{item.comment}}"</span>
-    <mat-icon [style.visibility]="isSelected(item) ? 'visible' : 'hidden'">location_on</mat-icon>
-    <mat-icon [style.visibility]="isHovered(item) ? 'visible' : 'hidden'" (click)="delete(item)">delete</mat-icon>
-  </mat-list-item>
-</mat-nav-list>
+<div class="container">
+  <mat-accordion>
+  <mat-expansion-panel *ngFor="let item of items | async" (opened)="generateMap(item)" (closed)="destroyMap(item.id)">
+    <mat-expansion-panel-header>
+      <span>{{item.address.village}} {{item.address.town}} ({{item.address.country}})</span>
+      <span *ngIf="item.comment" class="comment">"{{item.comment}}"</span>
+    </mat-expansion-panel-header>
+    <div id="{{ 'map' + item.id }}" class="map"></div>
+    <mat-action-row>
+      <span class="log_date">Logged on {{ item.datetime.toLocaleDateString() }}</span>
+      <button mat-raised-button (click)="delete(item)">Delete log</button>
+      <!--
+      <button mat-raised-button (click)="close(item)">Close</button>
+      <button mat-raised-button color="primary" (click)="next(item)">Next</button>
+      -->
+    </mat-action-row>
+  </mat-expansion-panel>
+  </mat-accordion>
+</div>

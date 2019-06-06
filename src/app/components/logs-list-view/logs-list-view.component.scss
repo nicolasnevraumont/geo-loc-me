@@ -5,17 +5,27 @@
 
 // Define your application's custom theme.
 $primary: mat-palette($mat-indigo);
+$secondary: mat-palette($mat-grey);
 
 :host {
+  .container {
+    margin: 10px;
+  }
+
   .map {
-    height: 100%;
-    width: 50vw;
-    float: right;
+    height: 150px;
+    width: 100vw;
   }
 
   .comment {
     margin-left: 5px;
     font-style: italic;
     color: mat-color($primary);
+  }
+
+  .log_date {
+    font-size: smaller;
+    margin: 9px 15px 0px 0px;
+    color: mat-color($secondary);
   }
 }
