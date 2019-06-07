@@ -5,8 +5,8 @@
       [opened]="!(isHandset$ | async)">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/logs" routerLinkActive="active">View logs</a>
-      <a mat-list-item routerLink="/logs/add" routerLinkActive="active">Add new log</a>
+      <a mat-list-item routerLink="/logs" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">View logs</a>
+      <a mat-list-item routerLink="/logs/add" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Add new log</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
