@@ -11,21 +11,26 @@ import { Observable } from "rxjs/index";
 })
 export class FirebaseService {
 
+  private userLocationsCollectionName: string = null;
+
   constructor(private afs: AngularFirestore,
               public afAuth: AngularFireAuth) {
+    this.afAuth.user.subscribe((currentUser) => {
+      this.userLocationsCollectionName = 'locations_' + currentUser.uid;
+    });
   }
 
   public getLocations(): Observable<DocumentChangeAction<Location>[]> {
-    return this.afs.collection<Location>('locations', ref =>
+    return this.afs.collection<Location>(this.userLocationsCollectionName, ref =>
       ref.orderBy('datetime', 'desc')).snapshotChanges()
   }
 
   public addLocation(location: Location): Promise<DocumentReference> {
     const param = JSON.parse(JSON.stringify(location)); // firebase add does not support custom typed object
-    return this.afs.collection<Location>('locations').add(param);
+    return this.afs.collection<Location>(this.userLocationsCollectionName).add(param);
   }
 
   public deleteLocation(location: Location): Promise<void> {
-    return this.afs.collection<Location>('locations').doc(location.id).delete();
+    return this.afs.collection<Location>(this.userLocationsCollectionName).doc(location.id).delete();
   }
 }

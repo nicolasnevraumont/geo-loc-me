@@ -1,19 +1,5 @@
 import { Address } from "./address";
 
-export class User {
-  uid: string;
-  email: string;
-  displayName: string;
-
-  constructor(obj?: any) {
-    if (obj) {
-      for (const property in obj) {
-        this[property] = obj[property];
-      }
-    }
-  }
-}
-
 export class Coords {
   latitude: number;
   longitude: number;
@@ -34,7 +20,6 @@ export class Location {
   datetime: Date;
   coords: Coords;
   comment: string;
-  user: User;
 
   constructor(obj?: any) {
     if (obj) {
@@ -48,9 +33,6 @@ export class Location {
             break;
           case 'coords':
             this.coords = new Coords(obj.coords);
-            break;
-          case 'user':
-            this.user = new User(obj.user);
             break;
           default:
             this[property] = obj[property];
