@@ -2,8 +2,8 @@
   <mat-accordion>
   <mat-expansion-panel *ngFor="let item of items | async" (opened)="generateMap(item)" (closed)="destroyMap(item.id)">
     <mat-expansion-panel-header>
-      <span>{{item.address.village}} {{item.address.town}} ({{item.address.country}})</span>
-      <span *ngIf="item.comment" class="comment">"{{item.comment}}"</span>
+      <span class="header">{{item.address.village}} {{item.address.town}} ({{item.address.country}})</span>
+      <span *ngIf="item.comment" class="header comment">"{{item.comment}}"</span>
     </mat-expansion-panel-header>
     <div id="{{ 'map' + item.id }}" class="map"></div>
     <mat-action-row>

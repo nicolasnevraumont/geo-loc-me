@@ -1,12 +1,24 @@
+@import '../../../styles/media-variables';
+
 button {
-  margin-left: 15px;
+  margin-left: 5px;
 }
 
 mat-icon {
-  margin: 4px 6px 0px 0px;
+  margin: 4px 5px 0px 10px;
 }
 
-user-name {
+.user-name {
   text-overflow: ellipsis;
   overflow: hidden;
+
+  @media screen and (min-width: $break-x-small) and (max-width: $break-small) {
+    width: 80px;
+    font-size: smaller;
+  }
+
+  @media screen and (max-width: $break-x-small) {
+    width: 50px;
+    font-size: smaller;
+  }
 }
