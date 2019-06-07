@@ -1,11 +1,25 @@
 import { Address } from "./address";
 
+export class User {
+  uid: string;
+  email: string;
+  displayName: string;
+
+  constructor(obj?: any) {
+    if (obj) {
+      for (const property in obj) {
+        this[property] = obj[property];
+      }
+    }
+  }
+}
+
 export class Coords {
   latitude: number;
   longitude: number;
   altitude?: number;
 
-  constructor(obj: any) {
+  constructor(obj?: any) {
     if (obj) {
       for (const property in obj) {
         this[property] = obj[property];
@@ -20,9 +34,9 @@ export class Location {
   datetime: Date;
   coords: Coords;
   comment: string;
-  user: string;
+  user: User;
 
-  constructor(obj: any) {
+  constructor(obj?: any) {
     if (obj) {
       for (const property in obj) {
         switch (property) {
@@ -34,6 +48,9 @@ export class Location {
             break;
           case 'coords':
             this.coords = new Coords(obj.coords);
+            break;
+          case 'user':
+            this.user = new User(obj.user);
             break;
           default:
             this[property] = obj[property];

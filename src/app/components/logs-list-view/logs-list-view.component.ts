@@ -1,9 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 import * as L from 'leaflet';
+
+import { FirebaseService } from "../../shared/services/firebase.service";
 
 import { Location } from "../../shared/models/location";
 import { Map } from "../../shared/models/map";
@@ -14,7 +15,6 @@ import { Map } from "../../shared/models/map";
   styleUrls: ['./logs-list-view.component.scss']
 })
 export class LogsListViewComponent implements OnDestroy {
-  private itemsCollection: AngularFirestoreCollection<Location>;
   items: Observable<Location[]>;
 
   private readonly myIcon: any = L.icon({
@@ -23,10 +23,8 @@ export class LogsListViewComponent implements OnDestroy {
   });
   private maps: Map[] = [];
 
-  constructor(private afs: AngularFirestore) {
-    this.itemsCollection = afs.collection<Location>('locations', ref =>
-      ref.orderBy('datetime', 'desc'));
-    this.items = this.itemsCollection.snapshotChanges().pipe(map(actions => {
+  constructor(private firebaseService: FirebaseService) {
+    this.items = this.firebaseService.getLocations().pipe(map(actions => {
       return actions.map(a => {
         const data = new Location(a.payload.doc.data());
         data.id = a.payload.doc.id;
@@ -42,8 +40,11 @@ export class LogsListViewComponent implements OnDestroy {
 
   delete(item: Location) {
     if (confirm('Do you really want to delete this log?')) {
-      this.itemsCollection.doc(item.id).delete();
-      this.destroyMap(item.id);
+      this.firebaseService.deleteLocation(item).then(
+        res => {
+          this.destroyMap(item.id);
+        }
+      );
     }
   }
 
