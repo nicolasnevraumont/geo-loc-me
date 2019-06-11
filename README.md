@@ -4,6 +4,10 @@ This is a PWA for logging the current location and eventually add a comment. Cou
 
 Technically, it's a POC for PWA with angular, firebase and other components. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
 
+## Firebase environment
+
+Create and/or fill in `environment.ts` and `environment.prod.ts` with firebase credentials as described in `environment.sample.ts`.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -23,6 +27,12 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Deploy to Firebase
+
+App is a PWA hosted on Firebase. Create and fill in `manifest.json` file according to hosting environment and icons in `assets/icons` as described in `manifest.sample.json`. See https://developers.google.com/web/fundamentals/web-app-manifest/ for details.
+
+Run `ng build --prod`, then `firebase deploy` to deploy to firebase web server. See https://firebase.google.com/docs/hosting/quickstart for details.
 
 ## Further help
 
