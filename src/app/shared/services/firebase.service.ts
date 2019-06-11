@@ -1,36 +1,45 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFirestore, DocumentChangeAction, DocumentReference } from "@angular/fire/firestore";
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { Location } from '../../shared/models/location';
 import { Observable } from "rxjs/index";
+import { map, flatMap, take } from "rxjs/operators";
+
+
+import { Location } from '../../shared/models/location';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  private userLocationsCollectionName: string = null;
+  private userLocationsCollectionName: Observable<string>;
 
   constructor(private afs: AngularFirestore,
               public afAuth: AngularFireAuth) {
-    this.afAuth.user.subscribe((currentUser) => {
-      this.userLocationsCollectionName = 'locations_' + currentUser.uid;
-    });
+    this.userLocationsCollectionName = this.afAuth.user.pipe(map((currentUser) => 'locations_' + currentUser.uid));
   }
 
   public getLocations(): Observable<DocumentChangeAction<Location>[]> {
-    return this.afs.collection<Location>(this.userLocationsCollectionName, ref =>
-      ref.orderBy('datetime', 'desc')).snapshotChanges()
+    return this.userLocationsCollectionName.pipe(flatMap((userLocationsCollectionName: string) => {
+        return this.afs.collection<Location>(userLocationsCollectionName, ref =>
+          ref.orderBy('datetime', 'desc')).snapshotChanges();
+      }
+    ));
   }
 
   public addLocation(location: Location): Promise<DocumentReference> {
-    const param = JSON.parse(JSON.stringify(location)); // firebase add does not support custom typed object
-    return this.afs.collection<Location>(this.userLocationsCollectionName).add(param);
+    return this.userLocationsCollectionName.pipe(flatMap((userLocationsCollectionName: string) => {
+      const param = JSON.parse(JSON.stringify(location)); // firebase add does not support custom typed object
+      return this.afs.collection<Location>(userLocationsCollectionName).add(param);
+      }
+    ),take(1)).toPromise();
   }
 
   public deleteLocation(location: Location): Promise<void> {
-    return this.afs.collection<Location>(this.userLocationsCollectionName).doc(location.id).delete();
+    return this.userLocationsCollectionName.pipe(flatMap((userLocationsCollectionName: string) => {
+      return this.afs.collection<Location>(userLocationsCollectionName).doc(location.id).delete();
+      }
+    ),take(1)).toPromise();
   }
 }

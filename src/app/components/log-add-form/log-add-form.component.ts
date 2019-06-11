@@ -40,7 +40,7 @@ export class LogAddFormComponent {
               res => {
                 this.router.navigate(['/logs']);
               }
-            );
+            ).catch(err => console.log(err));
           }
         );
     });
