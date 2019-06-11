@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,13 +24,7 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
-
-const appRoutes: Routes = [
-  { path: 'logs', component: LogsListViewComponent },
-  { path: 'logs/add', component: LogAddFormComponent },
-  { path: '',   redirectTo: '/logs/add', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
-];
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -40,13 +33,10 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     LogAddFormComponent,
     AppNavComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    LoginComponent
   ],
   imports: [
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: false } // <-- to true for debugging routes (console log)
-    ),
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase, 'geo-loc-me'),

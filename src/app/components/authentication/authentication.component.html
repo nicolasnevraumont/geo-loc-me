@@ -1,4 +1,4 @@
-<div *ngIf="afAuth.user | async as user; else showLogin" style="display: flex">
+<div *ngIf="user | async as user; else showLogin" style="display: flex">
   <mat-icon aria-hidden="true">account_circle</mat-icon>
   <div class="user-name">{{ user.displayName }}</div>
   <button mat-button (click)="logout()">Logout</button>
