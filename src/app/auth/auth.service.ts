@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { auth, User } from 'firebase/app';
 import { Router } from "@angular/router";
@@ -9,7 +9,7 @@ import { first } from "rxjs/internal/operators";
 })
 export class AuthService {
 
-  constructor(private router: Router, public afAuth: AngularFireAuth) {
+  constructor(private router: Router, public afAuth: AngularFireAuth, private ngZone: NgZone) {
   }
 
   // store the URL so we can redirect after logging in
@@ -18,9 +18,11 @@ export class AuthService {
   login() {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(res => {
       if (this.redirectUrl) {
-        this.router.navigate([this.redirectUrl]);
+        this.ngZone.run(() => this.router.navigate([this.redirectUrl]).then());
+        // this.router.navigate([this.redirectUrl]); // causes warning: Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?
       } else {
-        this.router.navigate(['/']); //home
+        this.ngZone.run(() => this.router.navigate(['/logs/add']).then());
+        // this.router.navigate(['/logs/add']); // causes warning: Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?
       }
     });
   }
