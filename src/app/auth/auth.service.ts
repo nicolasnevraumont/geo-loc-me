@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
-import { auth } from 'firebase/app';
+import { auth, User } from 'firebase/app';
 import { Router } from "@angular/router";
+import { first } from "rxjs/internal/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,13 @@ export class AuthService {
   redirectUrl: string;
 
   login() {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(res => {
+      if (this.redirectUrl) {
+        this.router.navigate([this.redirectUrl]);
+      } else {
+        this.router.navigate(['/']); //home
+      }
+    });
   }
 
   logout() {
@@ -26,10 +33,7 @@ export class AuthService {
     return this.afAuth.user;
   }
 
-  /* https://angularfirebase.com/lessons/router-guards-to-redirect-unauthorized-firebase-users/ */
-
-  // Returns true if user is logged in
-  get authenticated(): boolean {
-    return this.afAuth.authState !== null;
+  get authenticated(): Promise<User> {
+    return this.afAuth.authState.pipe(first()).toPromise();
   }
 }

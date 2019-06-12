@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Observable } from "rxjs";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 
 import * as L from 'leaflet';
@@ -14,8 +14,9 @@ import { Map } from "../../shared/models/map";
   templateUrl: './logs-list-view.component.html',
   styleUrls: ['./logs-list-view.component.scss']
 })
-export class LogsListViewComponent implements OnDestroy {
+export class LogsListViewComponent implements OnInit, OnDestroy {
   items: Observable<Location[]>;
+  itemsSubscription: Subscription;
 
   private readonly myIcon: any = L.icon({
     // iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png'
@@ -24,12 +25,19 @@ export class LogsListViewComponent implements OnDestroy {
   private maps: Map[] = [];
 
   constructor(private firebaseService: FirebaseService) {
+  }
+
+  ngOnInit() {
     this.items = this.firebaseService.getLocations().pipe(map(actions => {
-      return actions.map(a => {
-        const data = new Location(a.payload.doc.data());
-        data.id = a.payload.doc.id;
-        return data;
-      });
+      if (actions) {
+        return actions.map(a => {
+          const data = new Location(a.payload.doc.data());
+          data.id = a.payload.doc.id;
+          return data;
+        });
+      } else {
+        return [];
+      }
     }));
   }
 
