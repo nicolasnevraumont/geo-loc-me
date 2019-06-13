@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from "../../auth/auth.service";
+
+import { Observable } from 'rxjs/index';
+import { User } from "firebase";
+
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-authentication',
@@ -11,8 +15,8 @@ export class AuthenticationComponent {
   constructor(private authService: AuthService) {
   }
 
-  get user(): any {
-    return this.authService.user();
+  get user(): Observable<User> {
+    return this.authService.user;
   }
 
   login() {

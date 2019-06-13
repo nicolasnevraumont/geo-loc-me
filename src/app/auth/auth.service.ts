@@ -1,19 +1,21 @@
 import { Injectable, NgZone } from '@angular/core';
-import { AngularFireAuth } from "@angular/fire/auth";
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+
 import { auth, User } from 'firebase/app';
-import { Router } from "@angular/router";
-import { first } from "rxjs/internal/operators";
+import { first } from 'rxjs/internal/operators';
+import { Observable } from 'rxjs/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  constructor(private router: Router, public afAuth: AngularFireAuth, private ngZone: NgZone) {
-  }
-
   // store the URL so we can redirect after logging in
   redirectUrl: string;
+
+  constructor(private router: Router, public afAuth: AngularFireAuth, private ngZone: NgZone) {
+  }
 
   login() {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(res => {
@@ -28,10 +30,10 @@ export class AuthService {
   }
 
   logout() {
-    this.afAuth.auth.signOut().then(res => this.router.navigate(['/login']));
+    this.afAuth.auth.signOut().then(res => this.ngZone.run(() => this.router.navigate(['/login']).then()));
   }
 
-  user() {
+  get user(): Observable<User> {
     return this.afAuth.user;
   }
 

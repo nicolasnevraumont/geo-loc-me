@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as L from 'leaflet';
 
-import { FirebaseService } from "../../shared/services/firebase.service";
+import { Location } from '../../shared/models/location';
+import { Map } from '../../shared/models/map';
 
-import { Location } from "../../shared/models/location";
-import { Map } from "../../shared/models/map";
+import { FirebaseService } from '../../shared/services/firebase.service';
 
 @Component({
   selector: 'app-logs-list-view',
@@ -16,10 +16,8 @@ import { Map } from "../../shared/models/map";
 })
 export class LogsListViewComponent implements OnInit, OnDestroy {
   items: Observable<Location[]>;
-  itemsSubscription: Subscription;
 
   private readonly myIcon: any = L.icon({
-    // iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/images/marker-icon.png'
     iconUrl: 'assets/icons/baseline-location_on.svg'
   });
   private maps: Map[] = [];

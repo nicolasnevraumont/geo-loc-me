@@ -1,15 +1,49 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
+  MatListModule, MatInputModule, MatExpansionModule } from '@angular/material';
+
+import { AppNavComponent } from './components/app-nav/app-nav.component';
+import { LogsListViewComponent } from './components/logs-list-view/logs-list-view.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { LogAddFormComponent } from './components/log-add-form/log-add-form.component';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { LoginComponent } from './components/login/login.component';
+
+import { environment } from '../environments/environment';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
+        MatListModule, MatInputModule, MatExpansionModule,
+        RouterTestingModule,
+        FormsModule, ReactiveFormsModule,
+        NoopAnimationsModule,
+        AngularFireModule.initializeApp(environment.firebase, 'geo-loc-me'),
+        AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+        AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+        AngularFireStorageModule, // imports firebase/storage only needed for storage features
+
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        AppNavComponent,
+        LogsListViewComponent,
+        PageNotFoundComponent,
+        LogAddFormComponent,
+        AuthenticationComponent,
+        LoginComponent
       ],
     }).compileComponents();
   }));
@@ -18,18 +52,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'geo-loc-me'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('geo-loc-me');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to geo-loc-me!');
   });
 });

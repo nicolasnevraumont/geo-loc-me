@@ -2,29 +2,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from "@angular/fire/firestore";
-import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFireStorageModule } from "@angular/fire/storage";
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
+  MatListModule, MatInputModule, MatIconRegistry, MatExpansionModule } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
 
 import { LogsListViewComponent } from './components/logs-list-view/logs-list-view.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LogAddFormComponent } from './components/log-add-form/log-add-form.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AppNavComponent } from './components/app-nav/app-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule,
-  MatListModule, MatInputModule, MatIconRegistry, MatExpansionModule } from '@angular/material';
-
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { LoginComponent } from './components/login/login.component';
+import { AppNavComponent } from './components/app-nav/app-nav.component';
+
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [

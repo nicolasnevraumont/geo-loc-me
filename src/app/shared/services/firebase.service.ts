@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentChangeAction, DocumentReference } from "@angular/fire/firestore";
+import { AngularFirestore, DocumentChangeAction, DocumentReference } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { Observable, of } from "rxjs/index";
-import { map, flatMap, take } from "rxjs/operators";
+import { Observable, of } from 'rxjs/index';
+import { map, flatMap, take } from 'rxjs/operators';
 
 import { Location } from '../../shared/models/location';
 

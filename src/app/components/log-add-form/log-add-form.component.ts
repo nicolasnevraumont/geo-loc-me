@@ -3,10 +3,10 @@ import { FormControl } from '@angular/forms';
 import { Router } from "@angular/router";
 
 import { Location, Coords } from '../../shared/models/location';
-import { Address } from "../../shared/models/address";
+import { Address } from '../../shared/models/address';
 
-import { OpenStreetMapService } from "../../shared/services/open-street-map.service";
-import { FirebaseService } from "../../shared/services/firebase.service";
+import { OpenStreetMapService } from '../../shared/services/open-street-map.service';
+import { FirebaseService } from '../../shared/services/firebase.service';
 
 @Component({
   selector: 'app-log-add-form',
