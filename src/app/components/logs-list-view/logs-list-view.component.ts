@@ -22,6 +22,8 @@ export class LogsListViewComponent implements OnInit, OnDestroy {
   });
   private maps: Map[] = [];
 
+  showSpinner: boolean = true;
+
   constructor(private firebaseService: FirebaseService) {
   }
 
@@ -37,6 +39,7 @@ export class LogsListViewComponent implements OnInit, OnDestroy {
         return [];
       }
     }));
+    this.items.subscribe(() => this.showSpinner = false);
   }
 
   ngOnDestroy() {

@@ -26,6 +26,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AppNavComponent } from './components/app-nav/app-nav.component';
 
 import { environment } from '../environments/environment';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { environment } from '../environments/environment';
     LogAddFormComponent,
     AppNavComponent,
     AuthenticationComponent,
-    LoginComponent
+    LoginComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
