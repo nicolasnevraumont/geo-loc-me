@@ -63,8 +63,8 @@ export class LogsListViewComponent implements OnInit, OnDestroy {
 
       // initialise map
       let os_map: any = L.map('map' + item.id);
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: 'Geo Low Me Map'
+      L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Geo Loc Me Map'
       }).addTo(os_map);
 
       // move to location and add marker
