@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as L from 'leaflet';
 
@@ -23,6 +23,7 @@ export class LogsListViewComponent implements OnInit, OnDestroy {
   private maps: Map[] = [];
 
   showSpinner: boolean = true;
+  private itemsSubscription: Subscription;
 
   constructor(private firebaseService: FirebaseService) {
   }
@@ -39,12 +40,13 @@ export class LogsListViewComponent implements OnInit, OnDestroy {
         return [];
       }
     }));
-    this.items.subscribe(() => this.showSpinner = false);
+    this.itemsSubscription = this.items.subscribe(() => this.showSpinner = false);
   }
 
   ngOnDestroy() {
     // by security, release memory if map was not removed from closing expandable panel
     this.maps.forEach((existingMap: Map) => this.destroyMap(existingMap.id));
+    this.itemsSubscription.unsubscribe();
   }
 
   delete(item: Location) {

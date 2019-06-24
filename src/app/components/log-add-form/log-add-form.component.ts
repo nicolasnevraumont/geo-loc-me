@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from "@angular/router";
 
@@ -7,18 +7,24 @@ import { Address } from '../../shared/models/address';
 
 import { OpenStreetMapService } from '../../shared/services/open-street-map.service';
 import { FirebaseService } from '../../shared/services/firebase.service';
+import { Subscription } from 'rxjs/index';
 
 @Component({
   selector: 'app-log-add-form',
   templateUrl: './log-add-form.component.html',
   styleUrls: ['./log-add-form.component.scss']
 })
-export class LogAddFormComponent {
+export class LogAddFormComponent implements OnDestroy  {
   comment = new FormControl('');
+  private addressSubscription: Subscription;
 
   constructor(private openStreetMapService: OpenStreetMapService,
               private firebaseService: FirebaseService,
               private router: Router) {
+  }
+
+  ngOnDestroy() {
+    this.addressSubscription.unsubscribe();
   }
 
   log(comment: string) {
@@ -32,7 +38,7 @@ export class LogAddFormComponent {
       if (position.coords.altitude) {
         location.coords.altitude = position.coords.altitude;
       }
-      this.openStreetMapService.getAddressFromGeocoding(location.coords.latitude, location.coords.longitude)
+      this.addressSubscription = this.openStreetMapService.getAddressFromGeocoding(location.coords.latitude, location.coords.longitude)
         .subscribe(
           (address: Address) => {
             location.address = new Address(address);
